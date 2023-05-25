@@ -15,5 +15,6 @@ func NewRepoShop(mongo *mongo.Collection) *RepoShop {
 }
 
 func (r *RepoShop) Create(ctx context.Context, v types.ProductCreateInput) error {
-	return r.Create(ctx, v)
+	_, err := r.mongo.InsertOne(ctx, v)
+	return err
 }

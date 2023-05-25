@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"net/http"
+	"time"
 )
 
 type Server struct {
@@ -12,20 +13,11 @@ type Server struct {
 func NewServer(port string, handler http.Handler) *Server {
 	return &Server{
 		httpServer: &http.Server{
-			Addr:                         "",
-			Handler:                      nil,
-			DisableGeneralOptionsHandler: false,
-			TLSConfig:                    nil,
-			ReadTimeout:                  0,
-			ReadHeaderTimeout:            0,
-			WriteTimeout:                 0,
-			IdleTimeout:                  0,
-			MaxHeaderBytes:               0,
-			TLSNextProto:                 nil,
-			ConnState:                    nil,
-			ErrorLog:                     nil,
-			BaseContext:                  nil,
-			ConnContext:                  nil,
+			Addr:           ":" + port,
+			Handler:        handler,
+			ReadTimeout:    10 * time.Second,
+			WriteTimeout:   10 * time.Second,
+			MaxHeaderBytes: 1 << 20,
 		},
 	}
 }

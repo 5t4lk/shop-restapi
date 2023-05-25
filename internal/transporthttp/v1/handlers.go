@@ -13,9 +13,13 @@ func NewHandler(services *services.Service) *Handler {
 	return &Handler{services: services}
 }
 
-func (h *Handler) Init(api *gin.RouterGroup) {
-	v1 := api.Group("/v1")
+func (h *Handler) Init() *gin.Engine {
+	router := gin.New()
+
+	v1 := router.Group("/v1")
 	{
 		h.InitShopRouter(v1)
 	}
+
+	return router
 }

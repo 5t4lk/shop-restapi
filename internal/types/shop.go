@@ -1,9 +1,9 @@
 package types
 
 type ProductCreateInput struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price"`
-	Stock       int     `json:"stock"`
+	productId   string  `json:"id" bson:"productId"`
+	name        string  `json:"name" bson:"name"`
+	description string  `json:"description" bson:"description"`
+	price       float64 `json:"price" bson:"price"`
+	stock       int     `json:"stock" bson:"stock"`
 }

@@ -29,7 +29,9 @@ func (h *Handler) Create(c *gin.Context) {
 		newResponse(c, http.StatusInternalServerError, err)
 	}
 
-	c.Status(http.StatusCreated)
+	c.JSON(http.StatusCreated, map[string]interface{}{
+		"id": v,
+	})
 }
 
 func (h *Handler) GetAll(c *gin.Context) {
