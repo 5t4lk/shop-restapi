@@ -1,24 +1,24 @@
 package repository
 
 import (
-	"context"
 	"go.mongodb.org/mongo-driver/mongo"
-	"online_shop/internal/repository/shop"
+	repository "online_shop/internal/database/mongo"
 	"online_shop/internal/types"
 )
 
-type Shop interface {
-	Create(ctx context.Context, v types.ProductCreateInput) error
+type Authorization interface {
+	CreateUser(user types.User) (string, error)
+	GetUser(username, password string) (types.User, error)
 }
 
 type Repository struct {
-	Shop
+	Authorization
 }
 
-func New(client *mongo.Client, dbName string) *Repository {
+func NewRepository(client *mongo.Client, dbName string) *Repository {
 	db := client.Database(dbName)
 
 	return &Repository{
-		Shop: shop.NewRepoShop(db.Collection("products")),
+		Authorization: repository.NewAuthMongo(db.Collection("users")),
 	}
 }

@@ -6,11 +6,11 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"net/http"
-	"online_shop/internal/db/mongo"
+	mongodb "online_shop/internal/database/mongo"
+	"online_shop/internal/handler"
 	"online_shop/internal/repository"
 	"online_shop/internal/server"
-	"online_shop/internal/services"
-	v1 "online_shop/internal/transporthttp/v1"
+	service "online_shop/internal/service"
 	"os"
 	"os/signal"
 	"syscall"
@@ -25,17 +25,17 @@ func main() {
 		logrus.Fatalf("error occurred while loading env variables: %s", err)
 	}
 
-	db, err := mongo.NewDBConnection(os.Getenv("DB_CONNECT"))
+	db, err := mongodb.NewDBConnection(os.Getenv("DB_CONNECT"))
 	if err != nil {
 		logrus.Fatalf("error occurred while creating a new connection of database: %s", err)
 	}
 	defer db.Close()
 
-	repo := repository.New(db.Client, os.Getenv("DB_NAME"))
-	service := services.New(repo)
-	handler := v1.NewHandler(service)
+	repos := repository.NewRepository(db.Client, os.Getenv("DB_NAME"))
+	services := service.NewService(repos)
+	handlers := handler.NewHandler(services)
 
-	srv := server.NewServer(viper.GetString("port"), handler.Init())
+	srv := server.NewServer(viper.GetString("port"), handlers.InitRoutes())
 	go func() {
 		if err := srv.Run(); err != nil {
 			if err == http.ErrServerClosed {
