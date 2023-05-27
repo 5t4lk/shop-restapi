@@ -35,6 +35,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			cart.POST("/", h.add)
 			cart.DELETE("/", h.delete)
+			cart.GET("/", h.getAll)
 		}
 	}
 

@@ -31,7 +31,7 @@ func (h *Handler) createProduct(c *gin.Context) {
 }
 
 func (h *Handler) getProducts(c *gin.Context) {
-	products, err := h.services.GetAll()
+	products, err := h.services.Product.GetAll()
 	if err != nil {
 		fmt.Println("it fails here h/pr")
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())

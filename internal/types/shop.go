@@ -45,7 +45,7 @@ type AddToCart struct {
 }
 
 type RemoveFromCart struct {
-	ProductID string `json:"product_id" binding:"required"`
+	ProductID string `json:"product_id" bson:"product_id" binding:"required"`
 }
 
 type CartProduct struct {

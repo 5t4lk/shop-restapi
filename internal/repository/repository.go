@@ -22,6 +22,7 @@ type Product interface {
 type Cart interface {
 	Add(userId string, cart types.AddToCart) error
 	Delete(userId string, cart types.RemoveFromCart) error
+	GetAll(userId string) ([]types.CartProduct, error)
 }
 
 type Repository struct {

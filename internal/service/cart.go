@@ -20,3 +20,7 @@ func (c *CartService) Add(userId string, cart types.AddToCart) error {
 func (c *CartService) Delete(userId string, cart types.RemoveFromCart) error {
 	return c.repo.Delete(userId, cart)
 }
+
+func (c *CartService) GetAll(userId string) ([]types.CartProduct, error) {
+	return c.repo.GetAll(userId)
+}

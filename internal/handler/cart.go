@@ -62,3 +62,18 @@ func (h *Handler) delete(c *gin.Context) {
 		Status: "ok",
 	})
 }
+
+func (h *Handler) getAll(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	cart, err := h.services.Cart.GetAll(userId)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, cart)
+}
