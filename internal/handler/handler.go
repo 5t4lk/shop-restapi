@@ -28,6 +28,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			product.POST("/", h.createProduct)
 			product.GET("/", h.getProducts)
 			product.GET("/:id", h.getProductById)
+			product.DELETE("/:id", h.deleteProductById)
+			product.PUT("/:id", h.updateProductById)
+		}
+		cart := api.Group("/cart")
+		{
+			cart.POST("/", h.add)
+			cart.DELETE("/", h.delete)
 		}
 	}
 

@@ -59,3 +59,46 @@ func (h *Handler) getProductById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, list)
 }
+
+func (h *Handler) deleteProductById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	id := c.Param("id")
+
+	err = h.services.Product.Delete(userId, id)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse{
+		Status: "ok",
+	})
+}
+
+func (h *Handler) updateProductById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	id := c.Param("id")
+
+	var input types.UpdateProduct
+	if err := c.BindJSON(&input); err != nil {
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.Product.Update(userId, id, input); err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, StatusResponse{
+		Status: "ok",
+	})
+}

@@ -24,3 +24,14 @@ func (s *ProductService) GetAll() ([]types.GetProducts, error) {
 func (s *ProductService) GetById(userId, productId string) (types.CreateProduct, error) {
 	return s.repo.GetById(userId, productId)
 }
+
+func (s *ProductService) Delete(userId, productId string) error {
+	return s.repo.Delete(userId, productId)
+}
+
+func (s *ProductService) Update(userId, productId string, input types.UpdateProduct) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, productId, input)
+}

@@ -15,11 +15,19 @@ type Product interface {
 	Create(userId string, product types.CreateProduct) (string, error)
 	GetAll() ([]types.GetProducts, error)
 	GetById(userId, productId string) (types.CreateProduct, error)
+	Delete(userId, productId string) error
+	Update(userId, productId string, input types.UpdateProduct) error
+}
+
+type Cart interface {
+	Add(userId string, cart types.AddToCart) error
+	Delete(userId string, cart types.RemoveFromCart) error
 }
 
 type Repository struct {
 	Authorization
 	Product
+	Cart
 }
 
 func NewRepository(client *mongo.Client, dbName string) *Repository {
@@ -28,5 +36,6 @@ func NewRepository(client *mongo.Client, dbName string) *Repository {
 	return &Repository{
 		Authorization: repository.NewAuthMongo(db.Collection("users")),
 		Product:       repository.NewProductMongo(db.Collection("products")),
+		Cart:          repository.NewCartMongo(db.Collection("shopping_carts")),
 	}
 }
