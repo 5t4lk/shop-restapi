@@ -13,6 +13,8 @@ type Authorization interface {
 
 type Product interface {
 	Create(userId string, product types.CreateProduct) (string, error)
+	GetAll() ([]types.GetProducts, error)
+	GetById(userId, productId string) (types.CreateProduct, error)
 }
 
 type Service struct {
