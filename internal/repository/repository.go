@@ -11,8 +11,13 @@ type Authorization interface {
 	GetUser(username, password string) (types.User, error)
 }
 
+type Product interface {
+	Create(userId string, product types.CreateProduct) (string, error)
+}
+
 type Repository struct {
 	Authorization
+	Product
 }
 
 func NewRepository(client *mongo.Client, dbName string) *Repository {
@@ -20,5 +25,6 @@ func NewRepository(client *mongo.Client, dbName string) *Repository {
 
 	return &Repository{
 		Authorization: repository.NewAuthMongo(db.Collection("users")),
+		Product:       repository.NewProductMongo(db.Collection("products")),
 	}
 }

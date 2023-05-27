@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -32,7 +33,7 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	if err != nil {
 		NewErrorResponse(c, http.StatusUnauthorized, err.Error())
 	}
-
+	fmt.Println(userId)
 	c.Set(userCtx, userId)
 }
 
