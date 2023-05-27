@@ -18,6 +18,17 @@ func (h *Handler) add(c *gin.Context) {
 		return
 	}
 
+	product, err := h.services.Product.GetById(userId, input.ProductID)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if input.Quantity > product.Stock {
+		NewErrorResponse(c, http.StatusBadRequest, "not enough items in stock")
+		return
+	}
+
 	err = h.services.Cart.Add(userId, input)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())

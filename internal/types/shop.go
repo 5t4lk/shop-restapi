@@ -1,6 +1,8 @@
 package types
 
-import "errors"
+import (
+	"errors"
+)
 
 type CreateProduct struct {
 	Id          string  `json:"_id" bson:"_id"`
