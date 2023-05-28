@@ -58,3 +58,12 @@ type ShoppingCart struct {
 	UserID string        `json:"user_id" bson:"user_id"`
 	Items  []CartProduct `json:"items" bson:"items"`
 }
+
+type Order struct {
+	UserID     string   `json:"user_id" bson:"user_id"`
+	ProductIDs []string `json:"product_ids" bson:"product_ids"`
+}
+
+type DeleteOrder struct {
+	OrderID string `json:"_id" bson:"_id" binding:"required"`
+}

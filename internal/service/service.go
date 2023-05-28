@@ -25,10 +25,16 @@ type Cart interface {
 	GetAll(userId string) ([]types.CartProduct, error)
 }
 
+type Order interface {
+	Place(userID string, cart types.ShoppingCart) (string, error)
+	Delete(userId, orderId string) error
+}
+
 type Service struct {
 	Authorization
 	Product
 	Cart
+	Order
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -36,5 +42,6 @@ func NewService(repos *repository.Repository) *Service {
 		Authorization: NewAuthService(repos.Authorization),
 		Product:       NewProductService(repos.Product),
 		Cart:          NewCartService(repos.Cart),
+		Order:         NewOrderService(repos.Order),
 	}
 }

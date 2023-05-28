@@ -25,10 +25,16 @@ type Cart interface {
 	GetAll(userId string) ([]types.CartProduct, error)
 }
 
+type Order interface {
+	Place(userID string, cart types.ShoppingCart) (string, error)
+	Delete(userId, orderId string) error
+}
+
 type Repository struct {
 	Authorization
 	Product
 	Cart
+	Order
 }
 
 func NewRepository(client *mongo.Client, dbName string) *Repository {
@@ -38,5 +44,6 @@ func NewRepository(client *mongo.Client, dbName string) *Repository {
 		Authorization: repository.NewAuthMongo(db.Collection("users")),
 		Product:       repository.NewProductMongo(db.Collection("products")),
 		Cart:          repository.NewCartMongo(db.Collection("shopping_carts")),
+		Order:         repository.NewOrderMongo(db.Collection("orders")),
 	}
 }
