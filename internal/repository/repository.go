@@ -4,6 +4,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	repository "online_shop/internal/database/mongo"
 	"online_shop/internal/types"
+	"os"
 )
 
 type Authorization interface {
@@ -41,9 +42,9 @@ func NewRepository(client *mongo.Client, dbName string) *Repository {
 	db := client.Database(dbName)
 
 	return &Repository{
-		Authorization: repository.NewAuthMongo(db.Collection("users")),
-		Product:       repository.NewProductMongo(db.Collection("products")),
-		Cart:          repository.NewCartMongo(db.Collection("shopping_carts")),
-		Order:         repository.NewOrderMongo(db.Collection("orders")),
+		Authorization: repository.NewAuthMongo(db.Collection(os.Getenv("COL_USERS"))),
+		Product:       repository.NewProductMongo(db.Collection(os.Getenv("COL_PRODUCTS"))),
+		Cart:          repository.NewCartMongo(db.Collection(os.Getenv("COL_CARTS"))),
+		Order:         repository.NewOrderMongo(db.Collection(os.Getenv("COL_ORDERS"))),
 	}
 }
