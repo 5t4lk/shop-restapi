@@ -7,6 +7,6 @@ COPY ./ ./
 
 
 RUN go mod download
-RUN go build -o todo ./cmd/main.go
+RUN go build -o shop ./cmd/main.go
 
-CMD ["./app"]
+CMD ["./shop"]
