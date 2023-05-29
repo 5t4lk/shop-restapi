@@ -3,7 +3,7 @@
 ## In this project:
 - Developing Web Application following to design of REST API.
 - Working with framework gin-gonic/gin.
-- The Pure Architecture approach to building an application structure. Dependency implementation techniques.
+- The Clean Architecture approach to building an application structure. Dependency implementation techniques.
 - Working with MongoDB.
 - Configuring application with help of library spf13/viper. Working with environment variables.
 - Registration and authentication. JWT. Middleware.
